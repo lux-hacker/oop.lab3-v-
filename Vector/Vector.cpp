@@ -144,14 +144,6 @@ namespace Collection{
         return c;
     }
 
-    bool Vector::operator==(const Vector &other) const {
-        if(this->size != other.size) return false;
-        for(int i = 0; i < this->size; i++)
-            if(this->data[i] != other[i])
-                return false;
-        return true;
-    }
-
     int Vector::getSize() const {
         return this->size;
     }

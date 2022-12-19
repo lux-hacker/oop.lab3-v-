@@ -22,7 +22,7 @@ namespace Collection{
         Vector &operator=(const Vector&);
         Vector operator+(const Vector&);
         Vector operator+(int);
-        bool operator==(const Vector&) const;
+
 
         [[nodiscard]] Vector findFirstSub(bool = true) const;
         [[nodiscard]] int countUniq() const;
