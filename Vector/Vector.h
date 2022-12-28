@@ -12,16 +12,16 @@ namespace Collection{
         static int* realloc(const int*, int, int);
     public:
         Vector();
-        explicit Vector(int);
+        Vector(int);
         Vector(int, int*);
         Vector(const Vector&);
+        Vector(Vector &&) noexcept ;
 
         ~Vector();
 
         int & operator[] (int) const;
         Vector &operator=(const Vector&);
-        Vector operator+(const Vector&);
-        Vector operator+(int);
+        Vector &operator=(Vector&&) noexcept ;
 
 
         [[nodiscard]] Vector findFirstSub(bool = true) const;
@@ -33,9 +33,11 @@ namespace Collection{
 
         friend std::istream &operator>>(std::istream &in, Vector &vec);
         friend std::ostream &operator<<(std::ostream &out, const Vector &vec);
+        friend Vector operator+ (const Vector&, const Vector&);
     };
     std::istream &operator>>(std::istream &in, Vector &vec);
     std::ostream &operator<<(std::ostream &out, const Vector &vec);
+    Vector operator+ (const Vector&, const Vector&);
 }
 
 #endif //OOP_LAB3_VECTOR_H

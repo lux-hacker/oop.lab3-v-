@@ -39,6 +39,11 @@ namespace Collection{
         }
     }
 
+    Vector::Vector(Vector && v) noexcept : data(v.data), size(v.size){
+        v.data = nullptr;
+        v.size = 0;
+    }
+
     Vector::~Vector() {
         delete[] this->data;
     }
@@ -56,6 +61,17 @@ namespace Collection{
         if(vec.size != 0) out << vec.data[vec.size - 1] << "}";
         else out << "}";
         return out;
+    }
+
+    Vector operator+(const Vector &v1, const Vector &v2){
+        Vector new_vec(v1);
+        new_vec.data = v1.realloc(new_vec.data, new_vec.size, new_vec.size + v2.size);
+
+        for(int i = new_vec.size; i < new_vec.size + v2.size; i++)
+            new_vec.data[i] = v2.data[i - new_vec.size];
+        new_vec.size += v2.size;
+
+        return new_vec;
     }
 
     int& Vector::operator[](int i) const {
@@ -78,21 +94,20 @@ namespace Collection{
         return *this;
     }
 
-    Vector Vector::operator+(const Vector &other){
-        Vector new_vec(*this);
-        new_vec.data = this->realloc(new_vec.data, new_vec.size, new_vec.size + other.size);
+    Vector &Vector::operator=(Vector &&v) noexcept {
+        delete[] this->data;
 
-        for(int i = new_vec.size; i < new_vec.size + other.size; i++)
-            new_vec.data[i] = other.data[i - new_vec.size];
-        new_vec.size += other.size;
+        this->size = v.size;
+        this->data = v.data;
 
-        return new_vec;
+        v.data = nullptr;
+        v.size = 0;
+
+        return *this;
     }
 
-    Vector Vector::operator+(int a){
-        Vector a1(*this), a2(a);
-        return a1 + a2;
-    }
+
+
 
     Vector Vector::findFirstSub(bool d) const {
         Vector answer;
@@ -154,6 +169,8 @@ namespace Collection{
         this->data = this->realloc(this->data, this->size, newSize);
         this->size = newSize;
     }
+
+
 
 
 }
